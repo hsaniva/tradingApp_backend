@@ -3,6 +3,7 @@ package com.maverick.tradingApp.service;
 import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.enums.BuyOrSell;
 import com.maverick.tradingApp.enums.StatusCode;
+import com.maverick.tradingApp.helperFunctions.ObjectConversionHelper;
 import com.maverick.tradingApp.model.TradeOrder;
 import com.maverick.tradingApp.repository.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -23,15 +24,7 @@ public class TradeOrderService {
 
     public List<TradeOrderDTO> getAllOrders(){
         return orderRepository.findAll().stream()
-                .map(tradeOrder -> TradeOrderDTO
-                        .builder()
-                        .tradeOrderId(tradeOrder.getTradeOrderId())
-                        .buyOrSell(tradeOrder.getBuyOrSell())
-                        .stockPrice(tradeOrder.getStockPrice())
-                        .stockStatusCode(tradeOrder.getStockStatusCode())
-                        .stockVolume(tradeOrder.getStockVolume())
-                        .stockTickerLabel(tradeOrder.getStockTickerLabel())
-                        .build())
+                .map(ObjectConversionHelper::BOToDTO)
                 .toList();
     }
 
@@ -40,58 +33,26 @@ public class TradeOrderService {
     }
 
     public void createTradeOrder(TradeOrderDTO tradeOrderDTO){
-        orderRepository.save(TradeOrder
-                .builder()
-                .tradeOrderId(tradeOrderDTO.getTradeOrderId())
-                .stockVolume(tradeOrderDTO.getStockVolume())
-                .stockStatusCode(tradeOrderDTO.getStockStatusCode())
-                .stockTickerLabel(tradeOrderDTO.getStockTickerLabel())
-                .buyOrSell(tradeOrderDTO.getBuyOrSell())
-                .stockPrice(tradeOrderDTO.getStockPrice())
-                .build());
+        orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
     }
 
     public TradeOrderDTO getOrderById(Integer id) {
         TradeOrder tradeOrder = orderRepository.findById(id).get();
-        return TradeOrderDTO
-                        .builder()
-                        .tradeOrderId(tradeOrder.getTradeOrderId())
-                        .stockStatusCode(tradeOrder.getStockStatusCode())
-                        .buyOrSell(tradeOrder.getBuyOrSell())
-                        .stockPrice(tradeOrder.getStockPrice())
-                        .stockVolume(tradeOrder.getStockVolume())
-                        .stockTickerLabel(tradeOrder.getStockTickerLabel())
-                        .build();
+        return ObjectConversionHelper.BOToDTO(tradeOrder);
     }
 
     public List<TradeOrderDTO> getOrderByTickerId(String tickerId) {
         List<TradeOrder> tradeOrders = orderRepository.findByStockTickerLabel(tickerId);
-        return tradeOrders.stream().map(tradeOrder ->
-                TradeOrderDTO
-                        .builder()
-                        .tradeOrderId(tradeOrder.getTradeOrderId())
-                        .stockStatusCode(tradeOrder.getStockStatusCode())
-                        .buyOrSell(tradeOrder.getBuyOrSell())
-                        .stockPrice(tradeOrder.getStockPrice())
-                        .stockVolume(tradeOrder.getStockVolume())
-                        .stockTickerLabel(tradeOrder.getStockTickerLabel())
-                        .build()
-                ).toList();
+        return tradeOrders.stream().map(ObjectConversionHelper::BOToDTO).toList();
     }
 
     public List<TradeOrderDTO> getOrderByStatusCode(StatusCode statusCode) {
         List<TradeOrder> tradeOrders = orderRepository.findByStockStatusCode(statusCode);
-        return tradeOrders.stream().map(tradeOrder ->
-                TradeOrderDTO
-                        .builder()
-                        .tradeOrderId(tradeOrder.getTradeOrderId())
-                        .stockStatusCode(tradeOrder.getStockStatusCode())
-                        .buyOrSell(tradeOrder.getBuyOrSell())
-                        .stockPrice(tradeOrder.getStockPrice())
-                        .stockVolume(tradeOrder.getStockVolume())
-                        .stockTickerLabel(tradeOrder.getStockTickerLabel())
-                        .build()
-        ).toList();
+        return tradeOrders.stream().map(ObjectConversionHelper::BOToDTO).toList();
 
+    }
+
+    public void updateTradeOrder(TradeOrderDTO tradeOrderDTO) {
+        orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
     }
 }

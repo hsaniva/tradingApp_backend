@@ -24,30 +24,36 @@ public class TradeOrderController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     void createOrder(@RequestBody TradeOrderDTO tradeOrderDTO){
         tradeOrderService.createTradeOrder(tradeOrderDTO);
     }
 
     @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
     void deleteOrder(@RequestParam Integer tradeOrderId){
         tradeOrderService.deleteTradeOrderById(tradeOrderId);
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.OK)
     void updateOrder(@RequestBody TradeOrderDTO tradeOrderDTO){
-        //todo
+        tradeOrderService.updateTradeOrder(tradeOrderDTO);
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public TradeOrderDTO getOrderById(@PathVariable(value = "id") Integer id){
         return tradeOrderService.getOrderById(id);
     }
-    @GetMapping("/ticker/{tickerId}")
-    List<TradeOrderDTO> getOrderByTickerId(@PathVariable(value = "tickerId") String tickerId){
-        return tradeOrderService.getOrderByTickerId(tickerId);
+    @GetMapping("/ticker/{tickerLabel}")
+    @ResponseStatus(HttpStatus.OK)
+    List<TradeOrderDTO> getOrderByTickerId(@PathVariable(value = "tickerLabel") String tickerLabel){
+        return tradeOrderService.getOrderByTickerId(tickerLabel);
     }
 
     @GetMapping("/statusCode/{statusCode}")
+    @ResponseStatus(HttpStatus.OK)
     List<TradeOrderDTO> getOrderByStatusCode(@PathVariable(value = "statusCode") String statusCode){
         return tradeOrderService.getOrderByStatusCode(StatusCode.valueOf(statusCode));
     }
