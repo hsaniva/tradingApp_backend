@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_HOME" value="." />
+    <appender name="FILE_LOCAL" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_HOME}/spring.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="com.neueda.webdata.controllers" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_LOCAL"/>
+    </logger>
+    <logger name="com.neueda.webdata.services" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <!--        <appender-ref ref="FILE"/>-->
+    </logger>
+</configuration>
+
+        <!-- Slf4J  TRACE DEBUG INFO WARN ERROR OFF -->

@@ -36,51 +36,51 @@ class TradeOrderControllerTest {
     }
 
     @Test
-    void deleteOrder() {
+    void deleteOrder_shoudDelete(int id) {
         webTestClient.delete()
-                .uri("/api/order")
+                .uri("/api/order", id)
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus().isOk();
     }
 
     @Test
-    void updateOrder() {
+    void updateOrder_shouldUpdateOrder() {
         webTestClient.put()
                 .uri("/api/order")
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus().isOk();
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/OrderIdTC.csv")
     void getOrderById(int id) {
         webTestClient.get()
-                .uri("/api/order/?orderId={id}", id)
+                .uri("/api/order/{id}", id)
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus().isOk();
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/TickerIdTC.csv")
     void getOrderByTickerId(int id) {
         webTestClient.get()
-                .uri("/api/order/?ticketId={id}", id)
+                .uri("/api/order/ticker/{tickerLabel}", id)
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus().isOk();
     }
 
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/TickerIdTC.csv")
+    @CsvFileSource(resources = "/StatusCodeTC.csv")
     void getOrderByStatusCode(int code) {
         webTestClient.get()
-                .uri("/api/order/?statusCode={id}", code)
+                .uri("/api/order/statusCode/{id}", code)
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus().isOk();
     }
 }
