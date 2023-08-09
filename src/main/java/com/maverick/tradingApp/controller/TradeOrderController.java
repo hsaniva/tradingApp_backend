@@ -1,17 +1,25 @@
 package com.maverick.tradingApp.controller;
 
 import com.maverick.tradingApp.dto.TradeOrderDTO;
+import com.maverick.tradingApp.service.TradeOrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
 @AllArgsConstructor
 public class TradeOrderController {
 
+    @Autowired
+    private final TradeOrderService tradeOrderService;
     @GetMapping
-    void getAllOrders(){
-        //todo
+    @ResponseStatus(HttpStatus.OK)
+    List<TradeOrderDTO> getAllOrders(){
+        return tradeOrderService.getAllOrders();
     }
 
     @PostMapping
