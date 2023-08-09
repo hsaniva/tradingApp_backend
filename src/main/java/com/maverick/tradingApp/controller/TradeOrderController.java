@@ -1,6 +1,7 @@
 package com.maverick.tradingApp.controller;
 
 import com.maverick.tradingApp.dto.TradeOrderDTO;
+import com.maverick.tradingApp.enums.StatusCode;
 import com.maverick.tradingApp.service.TradeOrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public class TradeOrderController {
 
     @PostMapping
     void createOrder(@RequestBody TradeOrderDTO tradeOrderDTO){
-        //todo
+        tradeOrderService.createTradeOrder(tradeOrderDTO);
     }
 
     @DeleteMapping
     void deleteOrder(@RequestParam Integer tradeOrderId){
-        //todo
+        tradeOrderService.deleteTradeOrderById(tradeOrderId);
     }
 
     @PutMapping
@@ -38,17 +39,17 @@ public class TradeOrderController {
     }
 
     @GetMapping("/{id}")
-    void getOrderById(@PathVariable Integer tradeOrderId){
-        //todo
+    public TradeOrderDTO getOrderById(@PathVariable(value = "id") Integer id){
+        return tradeOrderService.getOrderById(id);
     }
-    @GetMapping("/{tickerId}")
-    void getOrderByTickerId(@PathVariable Integer tradeOrderTickerId){
-        //todo
+    @GetMapping("/ticker/{tickerId}")
+    List<TradeOrderDTO> getOrderByTickerId(@PathVariable(value = "tickerId") String tickerId){
+        return tradeOrderService.getOrderByTickerId(tickerId);
     }
 
-    @GetMapping("/{statusCode}")
-    void getOrderByStatusCode(@PathVariable Integer statusCode){
-        //todo
+    @GetMapping("/statusCode/{statusCode}")
+    List<TradeOrderDTO> getOrderByStatusCode(@PathVariable(value = "statusCode") String statusCode){
+        return tradeOrderService.getOrderByStatusCode(StatusCode.valueOf(statusCode));
     }
 
 }

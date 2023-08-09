@@ -1,7 +1,9 @@
 package com.maverick.tradingApp.enums;
 
+import java.util.Map;
+
 public enum StatusCode {
-    PENDING(0), FILLED(1), REJECTED(2);
+    PENDING(0), EXECUTED(1), REJECTED(2);
 
     private final int statusCodeValue;
 
