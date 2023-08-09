@@ -31,6 +31,10 @@ public class Scheduler {
     private final TradeOrderService tradeOrderService;
     @Scheduled(fixedRate = 30000)
     public void daemon_function(){
+        /**
+         * Daemon function that runs every 30 seconds and checks if any PENDING trade orders can be execute
+         * This Daemon is active only between 9am and 3:30pm
+         */
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -57,11 +61,11 @@ public class Scheduler {
 
     }
 
-    /**
-     *
-     */
     @Scheduled(cron = "0 30 15 * * *")
     public void daemon_function_for_rejecting_the_orders(){
+        /**
+         * Daemon function that rejects all pending trade orders after market closing time of 3:30pm
+         */
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
