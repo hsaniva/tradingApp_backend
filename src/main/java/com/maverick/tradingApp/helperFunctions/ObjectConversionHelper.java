@@ -1,9 +1,18 @@
 package com.maverick.tradingApp.helperFunctions;
 
+/**
+ * Avinash G, Karthik R, Priyanshy T
+ */
+
 import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.model.TradeOrder;
 
 public class ObjectConversionHelper {
+    /**
+     * Converts the Business object to the data transfer object
+     * @param tradeOrder input BO
+     * @return DTO object
+     */
     public static TradeOrderDTO BOToDTO(TradeOrder tradeOrder){
         return TradeOrderDTO
                 .builder()
@@ -16,6 +25,11 @@ public class ObjectConversionHelper {
                 .build();
     }
 
+    /**
+     * Converts the DTO to BO
+     * @param tradeOrderDTO input DTO
+     * @return BO
+     */
     public static TradeOrder DTOToBO(TradeOrderDTO tradeOrderDTO){
         return TradeOrder
                 .builder()
