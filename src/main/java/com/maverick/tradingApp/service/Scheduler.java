@@ -1,6 +1,12 @@
 package com.maverick.tradingApp.service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.maverick.tradingApp.dto.TradeOrderDTO;
+import com.maverick.tradingApp.enums.BuyOrSell;
+import com.maverick.tradingApp.enums.StatusCode;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.context.annotation.Profile;
@@ -13,20 +19,60 @@ import yahoofinance.YahooFinance;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
-@Profile("Karthik")
+@AllArgsConstructor
+@Slf4j
 public class Scheduler {
 
-    @Scheduled(fixedRate = 120000)
-    public void task1(){
+    @Autowired
+    private final TradeOrderService tradeOrderService;
+    @Scheduled(fixedRate = 30000)
+    public void daemon_function(){
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        //getting the latest price
-        Double price = getPrice("AAPL");
-        System.out.println("Completed task1 : "+dtf.format(now)+price.toString());
+
+        if(now.getHour() < 9 || (now.getHour() >= 15 && now.getMinute() >= 30))return;
+        List<TradeOrderDTO> tradeOrderDTOList = tradeOrderService.getOrderByStatusCode(StatusCode.PENDING);
+
+        for(TradeOrderDTO tradeOrderDTO: tradeOrderDTOList){
+            Double price = getPrice(tradeOrderDTO.getStockTickerLabel());
+            if(tradeOrderDTO.getBuyOrSell() == BuyOrSell.BUY){
+                if(price <= tradeOrderDTO.getStockPrice()){
+                    tradeOrderDTO.setStockStatusCode(StatusCode.EXECUTED);
+                    tradeOrderService.updateTradeOrder(tradeOrderDTO);
+                    log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" bought at price " + price);
+                }
+            }else{
+                if(price >= tradeOrderDTO.getStockPrice()){
+                    tradeOrderDTO.setStockStatusCode(StatusCode.EXECUTED);
+                    tradeOrderService.updateTradeOrder(tradeOrderDTO);
+                    log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" sold at price " + price);
+                }
+            }
+        }
+
+    }
+
+    /**
+     *
+     */
+    @Scheduled(cron = "0 30 15 * * *")
+    public void daemon_function_for_rejecting_the_orders(){
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        List<TradeOrderDTO> tradeOrderDTOList = tradeOrderService.getOrderByStatusCode(StatusCode.PENDING);
+
+        for(TradeOrderDTO tradeOrderDTO: tradeOrderDTOList){
+            tradeOrderDTO.setStockStatusCode(StatusCode.REJECTED);
+            tradeOrderService.updateTradeOrder(tradeOrderDTO);
+            log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" rejected automatically");
+        }
+
     }
     public Double getPrice(String symbol){
         String url = String.format("https://finnhub.io/api/v1/quote?symbol=%s&token=cj9k3npr01qgvpdt3a9gcj9k3npr01qgvpdt3aa0",symbol);
