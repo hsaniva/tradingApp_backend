@@ -48,13 +48,13 @@ public class Scheduler {
                 if(price <= tradeOrderDTO.getStockPrice()){
                     tradeOrderDTO.setStockStatusCode(StatusCode.EXECUTED);
                     tradeOrderService.updateTradeOrder(tradeOrderDTO);
-                    log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" bought at price " + price);
+                    log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" bought at price " + price);
                 }
             }else{
                 if(price >= tradeOrderDTO.getStockPrice()){
                     tradeOrderDTO.setStockStatusCode(StatusCode.EXECUTED);
                     tradeOrderService.updateTradeOrder(tradeOrderDTO);
-                    log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" sold at price " + price);
+                    log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" sold at price " + price);
                 }
             }
         }
@@ -74,7 +74,7 @@ public class Scheduler {
         for(TradeOrderDTO tradeOrderDTO: tradeOrderDTOList){
             tradeOrderDTO.setStockStatusCode(StatusCode.REJECTED);
             tradeOrderService.updateTradeOrder(tradeOrderDTO);
-            log.info(dtf.format(now) + "Order number "+ tradeOrderDTO.getTradeOrderId() +" rejected automatically");
+            log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" rejected automatically");
         }
 
     }
