@@ -19,12 +19,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TradeOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tradeOrderId;
-    String stockTickerLabel;
-    double stockPrice;
-    int stockVolume;
-    BuyOrSell buyOrSell;
-    StatusCode stockStatusCode;
+    private int tradeOrderId; // Auto generated Trade Order ID
+    String stockTickerLabel; // Ticker Label like 'AMZN'
+    double stockPrice; // Stock price at which the trade needs to take place
+    int stockVolume; // Number of stocks
+    BuyOrSell buyOrSell; // takes value BUY OR SELL
+    StatusCode stockStatusCode; // takes values PENDING or EXECUTED or REJECTED
 }
