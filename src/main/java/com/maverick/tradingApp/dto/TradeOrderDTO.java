@@ -1,4 +1,7 @@
 package com.maverick.tradingApp.dto;
+/**
+ * @authors Avinash G, Priyanshu T, Karthik R
+ */
 
 import com.maverick.tradingApp.enums.BuyOrSell;
 import com.maverick.tradingApp.enums.StatusCode;
@@ -7,6 +10,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data transfer object class
+ * This object will be used to transfer information to the backend
+ */
 @Data
 @Builder
 @Getter
