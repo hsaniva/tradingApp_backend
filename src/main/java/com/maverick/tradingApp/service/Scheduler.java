@@ -1,4 +1,4 @@
-package com.maverick.tradingApp.services;
+package com.maverick.tradingApp.service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.scheduling.annotation.Scheduled;

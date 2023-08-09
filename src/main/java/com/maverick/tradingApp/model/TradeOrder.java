@@ -12,19 +12,19 @@ import lombok.*;
  *
  */
 @Entity
-@Table(name = "order")
+@Table(name = "order_table")
 @Builder
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class TradeOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String orderId;
-    String stockTicker;
-    double price;
-    int volume;
-    int buyOrSell;
-    int statusCode;
+    private int tradeOrderId;
+    String stockTickerLabel;
+    double stockPrice;
+    int stockVolume;
+    BuyOrSell buyOrSell;
+    StatusCode stockStatusCode;
 }
