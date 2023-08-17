@@ -22,6 +22,8 @@ public class ObjectConversionHelper {
                 .stockPrice(tradeOrder.getStockPrice())
                 .stockVolume(tradeOrder.getStockVolume())
                 .stockTickerLabel(tradeOrder.getStockTickerLabel())
+                .updatedOn(tradeOrder.getUpdatedOn())
+                .createdOn(tradeOrder.getCreatedOn())
                 .build();
     }
 
@@ -39,6 +41,8 @@ public class ObjectConversionHelper {
                 .stockTickerLabel(tradeOrderDTO.getStockTickerLabel())
                 .buyOrSell(tradeOrderDTO.getBuyOrSell())
                 .stockPrice(tradeOrderDTO.getStockPrice())
+                .updatedOn(tradeOrderDTO.getUpdatedOn())
+                .createdOn(tradeOrderDTO.getCreatedOn())
                 .build();
     }
 

@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +45,8 @@ public class TradeOrderService {
         /**
          * tradeOrderDTO:: trade Order DTO
          */
-
+        tradeOrderDTO.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+        tradeOrderDTO.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
         orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
     }
 
@@ -79,6 +82,7 @@ public class TradeOrderService {
         /**
          * tradeOrderDTO:: updated TradeOrder DTO
          */
+        tradeOrderDTO.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
         orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
     }
 }

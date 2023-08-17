@@ -78,12 +78,14 @@ public class Scheduler {
         }
 
     }
+    // AMZN
     public Double getPrice(String symbol){
         String url = String.format("https://finnhub.io/api/v1/quote?symbol=%s&token=cj9k3npr01qgvpdt3a9gcj9k3npr01qgvpdt3aa0",symbol);
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(url,String.class);
         JsonParser springParser = JsonParserFactory.getJsonParser();
         Map<String, Object> map = springParser.parseMap(result);
+
         return (Double) (map.get("c"));
 
     }

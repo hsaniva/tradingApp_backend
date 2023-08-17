@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 /**
  * Data transfer object class
  * This object will be used to transfer information to the backend
@@ -25,4 +27,6 @@ public class TradeOrderDTO {
     int stockVolume;
     BuyOrSell buyOrSell;
     StatusCode stockStatusCode;
+    Timestamp createdOn;
+    Timestamp updatedOn;
 }
