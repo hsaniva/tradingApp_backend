@@ -84,7 +84,7 @@ public class Scheduler {
         String result = restTemplate.getForObject(url,String.class);
         JsonParser springParser = JsonParserFactory.getJsonParser();
         Map<String, Object> map = springParser.parseMap(result);
-        return (Double)map.get("c");
+        return (Double) (map.get("c"));
 
     }
 
