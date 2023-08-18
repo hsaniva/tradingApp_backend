@@ -5,6 +5,8 @@ import com.maverick.tradingApp.enums.StatusCode;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 
 /**
  * @author Avinash G, Karthik R, Priyanshu T
@@ -28,4 +30,6 @@ public class TradeOrder {
     int stockVolume; // Number of stocks
     BuyOrSell buyOrSell; // takes value BUY OR SELL
     StatusCode stockStatusCode; // takes values PENDING or EXECUTED or REJECTED
+    Timestamp createdOn;
+    Timestamp updatedOn;
 }
