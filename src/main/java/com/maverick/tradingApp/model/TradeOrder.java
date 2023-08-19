@@ -23,8 +23,8 @@ import java.sql.Timestamp;
 public class TradeOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tradeOrderId; // Auto generated Trade Order ID
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String tradeOrderId; // Auto generated Trade Order ID
     String stockTickerLabel; // Ticker Label like 'AMZN'
     double stockPrice; // Stock price at which the trade needs to take place
     int stockVolume; // Number of stocks
@@ -32,4 +32,5 @@ public class TradeOrder {
     StatusCode stockStatusCode; // takes values PENDING or EXECUTED or REJECTED
     Timestamp createdOn;
     Timestamp updatedOn;
+    String userId;
 }

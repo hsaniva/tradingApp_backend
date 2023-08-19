@@ -1,7 +1,6 @@
 package com.maverick.tradingApp.service;
 
 import com.maverick.tradingApp.dto.TradeOrderDTO;
-import com.maverick.tradingApp.enums.BuyOrSell;
 import com.maverick.tradingApp.enums.StatusCode;
 import com.maverick.tradingApp.helperFunctions.ObjectConversionHelper;
 import com.maverick.tradingApp.model.TradeOrder;
@@ -11,10 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -55,7 +52,7 @@ public class TradeOrderService {
          * id:: id of the order needed
          * returns the id selected Trade order DTO
          */
-        TradeOrder tradeOrder = orderRepository.findById(id).get();
+        TradeOrder tradeOrder = orderRepository.getReferenceById(id);
         return ObjectConversionHelper.BOToDTO(tradeOrder);
     }
 
@@ -84,5 +81,36 @@ public class TradeOrderService {
          */
         tradeOrderDTO.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
         orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
+    }
+
+    /**
+     * Find all except status code.
+     * @param statusCode
+     * @return list of orders.
+     */
+    public List<TradeOrderDTO> findByStatusCodeNot(StatusCode statusCode){
+        return orderRepository.findByStockStatusCodeNot(statusCode)
+                .stream().map(ObjectConversionHelper::BOToDTO).toList();
+    }
+
+    /**
+     * Cancels the order
+     * @param tradeOrderId
+     */
+    public void cancelOrder(Integer tradeOrderId) {
+        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderId);
+        tradeOrder.setStockStatusCode(StatusCode.CANCELLED);
+        orderRepository.save(tradeOrder);
+    }
+
+    /**
+     * returns user specific orders.
+     * @param userId
+     * @return list of trades.
+     */
+    public List<TradeOrderDTO> getOrderByUserId(String userId) {
+        return orderRepository.findByUserId(userId)
+                .stream()
+                .map(ObjectConversionHelper::BOToDTO).toList();
     }
 }

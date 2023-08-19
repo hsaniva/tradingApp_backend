@@ -5,7 +5,9 @@ package com.maverick.tradingApp.helperFunctions;
  */
 
 import com.maverick.tradingApp.dto.TradeOrderDTO;
+import com.maverick.tradingApp.dto.UserDTO;
 import com.maverick.tradingApp.model.TradeOrder;
+import com.maverick.tradingApp.model.User;
 
 public class ObjectConversionHelper {
     /**
@@ -24,6 +26,7 @@ public class ObjectConversionHelper {
                 .stockTickerLabel(tradeOrder.getStockTickerLabel())
                 .updatedOn(tradeOrder.getUpdatedOn())
                 .createdOn(tradeOrder.getCreatedOn())
+                .userId(tradeOrder.getUserId())
                 .build();
     }
 
@@ -43,6 +46,31 @@ public class ObjectConversionHelper {
                 .stockPrice(tradeOrderDTO.getStockPrice())
                 .updatedOn(tradeOrderDTO.getUpdatedOn())
                 .createdOn(tradeOrderDTO.getCreatedOn())
+                .userId(tradeOrderDTO.getUserId())
+                .build();
+    }
+    /**
+     * Converts the BO to DTO
+     * @param user input BO
+     * @return DTO
+     */
+    public static UserDTO BOToDTO(User user){
+        return UserDTO.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .bankAccount(user.getBankAccount())
+                .build();
+    }
+    /**
+     * Converts the DTO to BO
+     * @param userDTO input DTO
+     * @return BO
+     */
+    public static User DTOToBO(UserDTO userDTO){
+        return User.builder()
+                .userId(userDTO.getUserId())
+                .name(userDTO.getName())
+                .bankAccount(userDTO.getBankAccount())
                 .build();
     }
 

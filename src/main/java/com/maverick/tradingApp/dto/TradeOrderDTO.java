@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class TradeOrderDTO {
-    private int tradeOrderId;
+    private String tradeOrderId;
     String stockTickerLabel;
     double stockPrice;
     int stockVolume;
@@ -29,4 +29,5 @@ public class TradeOrderDTO {
     StatusCode stockStatusCode;
     Timestamp createdOn;
     Timestamp updatedOn;
+    String userId;
 }

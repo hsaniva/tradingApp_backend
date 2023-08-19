@@ -4,22 +4,19 @@ import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.enums.StatusCode;
 import com.maverick.tradingApp.service.TradeOrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- *
+ * Controller class for handling orders.
  */
 @RestController
 @RequestMapping("/api/order")
 @AllArgsConstructor
 public class TradeOrderController {
 
-
-    @Autowired
     private final TradeOrderService tradeOrderService;
 
     /**
@@ -94,5 +91,46 @@ public class TradeOrderController {
     List<TradeOrderDTO> getOrderByStatusCode(@PathVariable(value = "statusCode") String statusCode){
         return tradeOrderService.getOrderByStatusCode(StatusCode.valueOf(statusCode));
     }
+
+    /**
+     * Get all orders other than the cancelled ones.
+     * @return List of orders.
+     */
+    @GetMapping("/valid")
+    @ResponseStatus(HttpStatus.OK)
+    List<TradeOrderDTO> getValidOrderList(){
+        return tradeOrderService.findByStatusCodeNot(StatusCode.CANCELLED);
+    }
+
+    /**
+     * Just cancels the order.
+     * @param tradeOrderId
+     */
+    @PutMapping("/cancel")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelOrder(@RequestParam Integer tradeOrderId){
+        tradeOrderService.cancelOrder(tradeOrderId);
+    }
+
+    /**
+     * Returns all the orders related to a particular user.
+     * @param userID user id
+     * @return list of orders related to the user.
+     */
+    @GetMapping("/user/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    List<TradeOrderDTO> getOrderByUserId(@PathVariable(value = "userId") String userID){
+        return tradeOrderService.getOrderByUserId(userID);
+    }
+//    user info apis
+//
+//    get all tickers label
+//    get profit details
+//
+//    get profit/loss ticket wise
+
+
+
+
 
 }
