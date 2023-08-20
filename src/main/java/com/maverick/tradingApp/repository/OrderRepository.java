@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<TradeOrder, Integer> {
+public interface OrderRepository extends JpaRepository<TradeOrder, String> {
     /**
      *
      * @param stockTickerLabel input ticker label param for filtering.

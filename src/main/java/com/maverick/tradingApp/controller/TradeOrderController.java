@@ -46,7 +46,7 @@ public class TradeOrderController {
      */
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    void deleteOrder(@RequestParam Integer tradeOrderId){
+    void deleteOrder(@RequestParam String tradeOrderId){
         tradeOrderService.deleteTradeOrderById(tradeOrderId);
     }
 
@@ -67,7 +67,7 @@ public class TradeOrderController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TradeOrderDTO getOrderById(@PathVariable(value = "id") Integer id){
+    public TradeOrderDTO getOrderById(@PathVariable(value = "id") String id){
         return tradeOrderService.getOrderById(id);
     }
 
@@ -109,7 +109,7 @@ public class TradeOrderController {
      */
     @PutMapping("/cancel")
     @ResponseStatus(HttpStatus.OK)
-    public void cancelOrder(@RequestParam Integer tradeOrderId){
+    public void cancelOrder(@RequestParam String tradeOrderId){
         tradeOrderService.cancelOrder(tradeOrderId);
     }
 

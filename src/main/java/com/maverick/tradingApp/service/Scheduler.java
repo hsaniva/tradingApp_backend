@@ -1,24 +1,18 @@
 package com.maverick.tradingApp.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.enums.BuyOrSell;
 import com.maverick.tradingApp.enums.StatusCode;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +21,7 @@ import java.util.Map;
 @Slf4j
 public class Scheduler {
 
-    @Autowired
+
     private final TradeOrderService tradeOrderService;
     @Scheduled(fixedRate = 30000)
     public void daemon_function(){
@@ -36,7 +30,6 @@ public class Scheduler {
          * This Daemon is active only between 9am and 3:30pm
          */
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
         if(now.getHour() < 9 || (now.getHour() >= 15 && now.getMinute() >= 30))return;

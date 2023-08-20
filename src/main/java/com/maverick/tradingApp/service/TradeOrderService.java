@@ -30,7 +30,7 @@ public class TradeOrderService {
                 .toList();
     }
 
-    public void deleteTradeOrderById(int tradeOrderId){
+    public void deleteTradeOrderById(String tradeOrderId){
         /**
          * tradeOrderId:: trade order ID
          *
@@ -47,7 +47,7 @@ public class TradeOrderService {
         orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
     }
 
-    public TradeOrderDTO getOrderById(Integer id) {
+    public TradeOrderDTO getOrderById(String id) {
         /**
          * id:: id of the order needed
          * returns the id selected Trade order DTO
@@ -79,8 +79,13 @@ public class TradeOrderService {
         /**
          * tradeOrderDTO:: updated TradeOrder DTO
          */
-        tradeOrderDTO.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-        orderRepository.save(ObjectConversionHelper.DTOToBO(tradeOrderDTO));
+
+        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderDTO.getTradeOrderId());
+        if(tradeOrder.getStockStatusCode() != StatusCode.PENDING)return;
+        tradeOrder.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+        tradeOrder.setStockPrice(tradeOrderDTO.getStockPrice());
+        tradeOrder.setStockVolume(tradeOrderDTO.getStockVolume());
+        orderRepository.save(tradeOrder);
     }
 
     /**
@@ -97,7 +102,7 @@ public class TradeOrderService {
      * Cancels the order
      * @param tradeOrderId
      */
-    public void cancelOrder(Integer tradeOrderId) {
+    public void cancelOrder(String tradeOrderId) {
         TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderId);
         tradeOrder.setStockStatusCode(StatusCode.CANCELLED);
         orderRepository.save(tradeOrder);
