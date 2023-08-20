@@ -79,7 +79,7 @@ public class TradeOrderController {
     @GetMapping("/ticker/{tickerLabel}")
     @ResponseStatus(HttpStatus.OK)
     List<TradeOrderDTO> getOrderByTickerId(@PathVariable(value = "tickerLabel") String tickerLabel){
-        return tradeOrderService.getOrderByTickerId(tickerLabel);
+        return tradeOrderService.getOrderByTickerId(tickerLabel.toUpperCase());
     }
 
     /**
@@ -90,7 +90,7 @@ public class TradeOrderController {
     @GetMapping("/statusCode/{statusCode}")
     @ResponseStatus(HttpStatus.OK)
     List<TradeOrderDTO> getOrderByStatusCode(@PathVariable(value = "statusCode") String statusCode){
-        return tradeOrderService.getOrderByStatusCode(StatusCode.valueOf(statusCode));
+        return tradeOrderService.getOrderByStatusCode(StatusCode.valueOf(statusCode.toUpperCase()));
     }
 
     /**
