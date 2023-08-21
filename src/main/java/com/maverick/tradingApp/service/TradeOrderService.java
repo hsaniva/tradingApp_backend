@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -74,7 +75,7 @@ public class TradeOrderService {
         return tradeOrders.stream().map(ObjectConversionHelper::BOToDTO).toList();
 
     }
-
+    @Transactional
     public void updateTradeOrder(TradeOrderDTO tradeOrderDTO) {
         /**
          * tradeOrderDTO:: updated TradeOrder DTO
@@ -117,5 +118,23 @@ public class TradeOrderService {
         return orderRepository.findByUserId(userId)
                 .stream()
                 .map(ObjectConversionHelper::BOToDTO).toList();
+    }
+
+    @Transactional
+    public void rejectOrder(TradeOrderDTO tradeOrderDTO) {
+        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderDTO.getTradeOrderId());
+        tradeOrder.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+        tradeOrder.setStockStatusCode(StatusCode.REJECTED);
+        orderRepository.save(tradeOrder);
+    }
+
+    @Transactional
+    public void executeOrder(TradeOrderDTO tradeOrderDTO) {
+        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderDTO.getTradeOrderId());
+        tradeOrder.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+        tradeOrder.setStockPrice(tradeOrderDTO.getStockPrice());
+        tradeOrder.setStockVolume(tradeOrderDTO.getStockVolume());
+        tradeOrder.setStockStatusCode(StatusCode.EXECUTED);
+        orderRepository.save(tradeOrder);
     }
 }

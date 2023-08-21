@@ -78,7 +78,7 @@ public class StockMarketService {
         List<StockWithPriceDTO> stocks = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         for (StockSymbol stockSymbol : stockSymbols) {
-            String uri = stockMarketQuoteURL+stockSymbol.getSymbol()+"&token="+token;
+            String uri = String.format(this.stockMarketQuoteURL,stockSymbol.getSymbol(),this.token);
             try {
                 StockPrice stockPrice = objectMapper.readValue((new RestTemplate()).getForObject(uri, String.class)
                 , StockPrice.class);
