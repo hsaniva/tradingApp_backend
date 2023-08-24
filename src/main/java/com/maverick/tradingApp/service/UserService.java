@@ -5,6 +5,7 @@ package com.maverick.tradingApp.service;
 
 import com.maverick.tradingApp.dto.UserDTO;
 import com.maverick.tradingApp.helperFunctions.ObjectConversionHelper;
+import com.maverick.tradingApp.model.User;
 import com.maverick.tradingApp.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,9 @@ public class UserService {
      */
     public void createUser(UserDTO userDTO) {
         userRepository.save(ObjectConversionHelper.DTOToBO(userDTO));
+    }
+
+    public User getUserById(String userID){
+        return userRepository.findById(userID).get();
     }
 }

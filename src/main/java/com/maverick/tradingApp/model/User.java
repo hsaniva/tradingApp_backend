@@ -7,7 +7,7 @@ import lombok.*;
  * @author Avinash G, Priyanshu T, Karthik R
  */
 @Entity
-@Table(name = "user_table")
+@Table(name = "tradeAppUser")
 @Builder
 @Setter
 @Getter

@@ -39,4 +39,9 @@ public class UserController {
         userService.createUser(userDTO);
     }
 
+    @GetMapping("/portfolio")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void getUserPortfolio(){
+
+    }
 }

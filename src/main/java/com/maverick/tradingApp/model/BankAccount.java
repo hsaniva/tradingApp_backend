@@ -10,7 +10,7 @@ import lombok.*;
  * Entity class for storing Bank account related functionalities.
  */
 @Entity
-@Table(name = "bank_account_table")
+@Table(name = "bank_account")
 @Builder
 @Getter
 @AllArgsConstructor

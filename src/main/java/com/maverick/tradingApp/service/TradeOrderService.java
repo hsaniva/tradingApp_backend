@@ -7,7 +7,6 @@ import com.maverick.tradingApp.model.TradeOrder;
 import com.maverick.tradingApp.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class TradeOrderService {
 
-    @Autowired
+
     private final OrderRepository orderRepository;
 
     public List<TradeOrderDTO> getAllOrders(){
@@ -118,23 +117,5 @@ public class TradeOrderService {
         return orderRepository.findByUserId(userId)
                 .stream()
                 .map(ObjectConversionHelper::BOToDTO).toList();
-    }
-
-    @Transactional
-    public void rejectOrder(TradeOrderDTO tradeOrderDTO) {
-        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderDTO.getTradeOrderId());
-        tradeOrder.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-        tradeOrder.setStockStatusCode(StatusCode.REJECTED);
-        orderRepository.save(tradeOrder);
-    }
-
-    @Transactional
-    public void executeOrder(TradeOrderDTO tradeOrderDTO) {
-        TradeOrder tradeOrder = orderRepository.getReferenceById(tradeOrderDTO.getTradeOrderId());
-        tradeOrder.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-        tradeOrder.setStockPrice(tradeOrderDTO.getStockPrice());
-        tradeOrder.setStockVolume(tradeOrderDTO.getStockVolume());
-        tradeOrder.setStockStatusCode(StatusCode.EXECUTED);
-        orderRepository.save(tradeOrder);
     }
 }

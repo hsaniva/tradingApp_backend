@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  *
  */
 @Entity
-@Table(name = "order_table")
+@Table(name = "tradeOrder")
 @Builder
 @Setter
 @Getter
