@@ -33,4 +33,5 @@ public class TradeOrder {
     Timestamp createdOn;
     Timestamp updatedOn;
     String userId;
+    String stockName;
 }

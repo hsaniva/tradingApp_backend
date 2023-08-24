@@ -27,6 +27,7 @@ public class ObjectConversionHelper {
                 .updatedOn(tradeOrder.getUpdatedOn())
                 .createdOn(tradeOrder.getCreatedOn())
                 .userId(tradeOrder.getUserId())
+                .stockName(tradeOrder.getStockName())
                 .build();
     }
 
@@ -47,6 +48,7 @@ public class ObjectConversionHelper {
                 .updatedOn(tradeOrderDTO.getUpdatedOn())
                 .createdOn(tradeOrderDTO.getCreatedOn())
                 .userId(tradeOrderDTO.getUserId())
+                .stockName(tradeOrderDTO.getStockName())
                 .build();
     }
     /**

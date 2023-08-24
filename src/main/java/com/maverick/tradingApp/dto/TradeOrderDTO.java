@@ -32,4 +32,6 @@ public class TradeOrderDTO {
     Timestamp createdOn;
     Timestamp updatedOn;
     String userId;
+
+    String stockName;
 }
