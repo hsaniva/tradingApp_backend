@@ -53,7 +53,8 @@ public class DaemonService {
                                 && price >= tradeOrderDTO.getStockPrice()){
                             stockMarketService.executeSellOrder(tradeOrderDTO, user, price);
                             log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" sold at price " + price);
-
+                        }else{
+                            hasHolding = false;
                         }
                     }
                 }
