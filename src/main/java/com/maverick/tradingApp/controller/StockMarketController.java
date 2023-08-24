@@ -5,10 +5,7 @@ import com.maverick.tradingApp.dto.StockWithPriceDTO;
 import com.maverick.tradingApp.service.StockMarketService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/market")
 @AllArgsConstructor
+@CrossOrigin
 public class StockMarketController {
 
     private StockMarketService stockMarketService;
