@@ -128,7 +128,7 @@ public class StockMarketService {
         Holding holding = Holding
                 .builder()
                 .stockTickerLabel(tradeOrderDTO.getStockTickerLabel())
-                .stockPrice(price)
+                .stockPrice(tradeOrderDTO.getStockPrice())
                 .stockVolume(tradeOrderDTO.getStockVolume())
                 .userId(tradeOrderDTO.getUserId())
                 .build();
@@ -148,7 +148,7 @@ public class StockMarketService {
         Holding holding = Holding
                 .builder()
                 .stockTickerLabel(tradeOrderDTO.getStockTickerLabel())
-                .stockPrice(price)
+                .stockPrice(tradeOrderDTO.getStockPrice())
                 .stockVolume(tradeOrderDTO.getStockVolume())
                 .userId(tradeOrderDTO.getUserId())
                 .build();

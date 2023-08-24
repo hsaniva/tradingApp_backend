@@ -1,5 +1,6 @@
 package com.maverick.tradingApp.controller;
 
+import com.maverick.tradingApp.dto.Portfolio;
 import com.maverick.tradingApp.dto.UserDTO;
 import com.maverick.tradingApp.service.UserService;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ public class UserController {
 
     @GetMapping("/portfolio")
     @ResponseStatus(value = HttpStatus.OK)
-    public void getUserPortfolio(){
-
+    public Portfolio getUserPortfolio(@RequestParam String userId){
+        return userService.getUserPortfolio(userId);
     }
 }

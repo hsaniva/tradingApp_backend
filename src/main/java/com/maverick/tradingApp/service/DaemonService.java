@@ -38,7 +38,6 @@ public class DaemonService {
             if(tradeOrderDTO.getBuyOrSell() == BuyOrSell.BUY){
                 if(user.getBankAccount().getBalance() >= price * tradeOrderDTO.getStockVolume()
                 && price <= tradeOrderDTO.getStockPrice()){
-                    tradeOrderDTO.setStockPrice(price);
                     stockMarketService.executeBuyOrder(tradeOrderDTO, user, price);
                     log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" bought at price " + price);
                 }else if(price <= tradeOrderDTO.getStockPrice()){
@@ -52,7 +51,6 @@ public class DaemonService {
                         hasHolding = true;
                         if(tradeOrderDTO.getStockVolume() <= holding.getStockVolume()
                                 && price >= tradeOrderDTO.getStockPrice()){
-                            tradeOrderDTO.setStockPrice(price);
                             stockMarketService.executeSellOrder(tradeOrderDTO, user, price);
                             log.info("Order number "+ tradeOrderDTO.getTradeOrderId() +" sold at price " + price);
 
