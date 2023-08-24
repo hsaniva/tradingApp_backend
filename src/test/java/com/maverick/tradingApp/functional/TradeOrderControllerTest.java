@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -33,8 +34,8 @@ class TradeOrderControllerTest {
     @Autowired
     WebTestClient webTestClient;
 
-    @Mock
-    TradeOrderService tradeOrderService;
+
+    TradeOrderService tradeOrderService = mock(TradeOrderService.class);
 
     @InjectMocks
     private TradeOrderController tradeOrderController;
@@ -46,29 +47,29 @@ class TradeOrderControllerTest {
 
     @Test
     void getAllOrdersTest_shouldReturnAllOrders() {
-//        List<TradeOrder> mockOrders  = new ArrayList<>();
-//        mockOrders.add(
-//                new TradeOrder("1", "AAPL",200.0,
-//                        200, BuyOrSell.BUY, StatusCode.PENDING,
-//                        new Timestamp(1000),
-//                        new Timestamp(System.currentTimeMillis()),
-//                        "102339"));
-//        when(tradeOrderService.getAllOrders()).thenReturn(mockOrders.stream()
-//                .map(ObjectConversionHelper::BOToDTO)
-//                .toList());
+        List<TradeOrder> mockOrders  = new ArrayList<>();
+        mockOrders.add(
+                new TradeOrder("1", "AAPL",200.0,
+                        200, BuyOrSell.BUY, StatusCode.PENDING,
+                        new Timestamp(1000),
+                        new Timestamp(System.currentTimeMillis()),
+                        "102339","Apple"));
+        when(tradeOrderService.getAllOrders()).thenReturn(mockOrders.stream()
+                .map(ObjectConversionHelper::BOToDTO)
+                .toList());
 
-//        List<TradeOrderDTO> result = tradeOrderService.getAllOrders();
-//
-//        assertEquals(mockOrders, result);
-//
-//        webTestClient.get()
-//                .uri("/api/order")
-//                .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
-//                .exchange()
-//                .expectBodyList(TradeOrderDTO.class)
-//                .isEqualTo(mockOrders.stream()
-//                        .map(ObjectConversionHelper::BOToDTO)
-//                        .toList());
+        List<TradeOrderDTO> result = tradeOrderService.getAllOrders();
+
+        assertEquals(mockOrders, result);
+
+        webTestClient.get()
+                .uri("/api/order")
+                .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .exchange()
+                .expectBodyList(TradeOrderDTO.class)
+                .isEqualTo(mockOrders.stream()
+                        .map(ObjectConversionHelper::BOToDTO)
+                        .toList());
     }
 
     @Test
