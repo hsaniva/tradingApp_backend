@@ -3,6 +3,7 @@ package com.maverick.tradingApp.service;
  * @author Avinash G, Karthik R, Priyanshu T
  */
 
+import com.maverick.tradingApp.dto.HoldingDTO;
 import com.maverick.tradingApp.dto.Portfolio;
 import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.dto.UserDTO;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,31 +64,26 @@ public class UserService {
         List<Holding> holdings = holdingService.getHoldingByUserId(userId);
         List<TradeOrderDTO> tradeOrderDTOs = tradeOrderService.getOrderByUserId(userId);
 
-        Map<String, Portfolio.StockInfo> stockHoldingRatios = new HashMap<>();
         Portfolio portfolio = new Portfolio();
         Long investedAmt = 0L;
         Long presentAmt = 0L;
         int totalStockCnt = 0;
         portfolio.setUserDTO(ObjectConversionHelper.BOToDTO(user));
+        List<HoldingDTO> holdingDTOS = new ArrayList<>();
         for(Holding holding: holdings){
             investedAmt += (long)(holding.getStockPrice() * holding.getStockVolume());
             Double price = stockMarketService.getPrice(holding.getStockTickerLabel());
             presentAmt += (long)(price * holding.getStockVolume());
             totalStockCnt += holding.getStockVolume();
-
-            stockHoldingRatios.put(holding.getStockTickerLabel(),
-                    stockHoldingRatios.getOrDefault(holding.getStockTickerLabel(), Portfolio.StockInfo.builder()
-                            .buyValue(holding.getStockPrice())
-                            .presentValue(price)
-                            .quantity(holding.getStockVolume())
-                            .build()));
+            HoldingDTO holdingDTO = ObjectConversionHelper.BOToDTO(holding);
+            holdingDTO.setStockCurrentPrice(price);
+            holdingDTOS.add(holdingDTO);
         }
-        portfolio.setStockHoldingRatios(stockHoldingRatios);
         portfolio.setTradeOrderDTOs(tradeOrderDTOs);
         portfolio.setUnrealizedProfitOrLoss(((double)(presentAmt - investedAmt)/((double)investedAmt))*100.0);
         portfolio.setInvestedAmount(investedAmt);
         portfolio.setPresentAmount(presentAmt);
-        portfolio.setHoldings(holdings);
+        portfolio.setHoldings(holdingDTOS);
         portfolio.setStocksQuantity(totalStockCnt);
         return portfolio;
     }
