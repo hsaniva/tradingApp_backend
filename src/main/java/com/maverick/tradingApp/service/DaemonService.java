@@ -34,7 +34,12 @@ public class DaemonService {
         List<TradeOrderDTO> tradeOrderDTOList = tradeOrderService.getOrderByStatusCode(StatusCode.PENDING);
         for(TradeOrderDTO tradeOrderDTO: tradeOrderDTOList){
             User user = userService.getUserById(tradeOrderDTO.getUserId());
-            Double price = stockMarketService.getPrice(tradeOrderDTO.getStockTickerLabel());
+            Double price = 0.0;
+            try {
+                price = stockMarketService.getPrice(tradeOrderDTO.getStockTickerLabel());
+            }catch(Exception e){
+                stockMarketService.rejectOrder(tradeOrderDTO);
+            }
             if(tradeOrderDTO.getBuyOrSell() == BuyOrSell.BUY){
                 if(user.getBankAccount().getBalance() >= price * tradeOrderDTO.getStockVolume()
                 && price <= tradeOrderDTO.getStockPrice()){
