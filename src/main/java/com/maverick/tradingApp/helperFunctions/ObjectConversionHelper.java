@@ -4,8 +4,10 @@ package com.maverick.tradingApp.helperFunctions;
  * Avinash G, Karthik R, Priyanshy T
  */
 
+import com.maverick.tradingApp.dto.HoldingDTO;
 import com.maverick.tradingApp.dto.TradeOrderDTO;
 import com.maverick.tradingApp.dto.UserDTO;
+import com.maverick.tradingApp.model.Holding;
 import com.maverick.tradingApp.model.TradeOrder;
 import com.maverick.tradingApp.model.User;
 
@@ -73,6 +75,15 @@ public class ObjectConversionHelper {
                 .userId(userDTO.getUserId())
                 .name(userDTO.getName())
                 .bankAccount(userDTO.getBankAccount())
+                .build();
+    }
+
+    public static HoldingDTO BOToDTO(Holding holding){
+        return HoldingDTO.builder()
+                .stockPrice(holding.getStockPrice())
+                .stockTickerLabel(holding.getStockTickerLabel())
+                .stockVolume(holding.getStockVolume())
+                .userId(holding.getUserId())
                 .build();
     }
 
